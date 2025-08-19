@@ -1,0 +1,10 @@
+<div class="pdf-embed">
+  <object data="{{ include.src | relative_url }}"
+          type="application/pdf"
+          width="100%"
+          height="{{ include.height | default: 800 }}">
+    <p>Can’t display the PDF here.
+      <a href="{{ include.src | relative_url }}">Download the PDF</a>.
+    </p>
+  </object>
+</div>

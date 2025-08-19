@@ -1,0 +1,192 @@
+:root{
+  --bg:#fff; --text:#111; --muted:#666; --link:#0a5ad7;
+  --nav-bg:#f7f7f8; --nav-text:#111;
+  --card-bg:#fafafa; --card-border:#e5e5e5;
+  --shadow:0 4px 20px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0e0f12; --text:#eaeaea; --muted:#a0a0a0; --link:#7db7ff;
+    --nav-bg:#121419; --nav-text:#eaeaea;
+    --card-bg:#14171d; --card-border:#242933;
+    --shadow:0 8px 30px rgba(0,0,0,.35);
+  }
+}
+/* MANUAL OVERRIDES — keep these AFTER the media block */
+html.light-mode{
+  --bg:#ffffff; --text:#111; --muted:#666; --link:#0a5ad7;
+  --nav-bg:#f7f7f8; --nav-text:#111;
+  --card-bg:#fafafa; --card-border:#e5e5e5;
+  --shadow:0 4px 20px rgba(0,0,0,.06);
+}
+html.dark-mode{
+  --bg:#0e0f12; --text:#eaeaea; --muted:#a0a0a0; --link:#7db7ff;
+  --nav-bg:#121419; --nav-text:#eaeaea;
+  --card-bg:#14171d; --card-border:#242933;
+  --shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font:16px/1.65 system-ui, -apple-system, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+  padding-top:64px;
+}
+a{ color:var(--link); text-decoration:none }
+a:hover{text-decoration:underline}
+.container{max-width:960px; margin:0 auto; padding:0 20px}
+
+/* Top bar */
+.top-bar{position:fixed; top:0; left:0; width:100%; z-index:1000;
+  background:var(--nav-bg); color:var(--nav-text); box-shadow:var(--shadow); backdrop-filter:saturate(120%) blur(6px)}
+.top-bar .container{display:flex; align-items:center; gap:16px; height:64px}
+.brand{font-weight:700; font-size:18px; color:var(--nav-text)}
+.nav-links{margin-left:auto; display:flex; align-items:center; gap:18px}
+.nav-links a{color:var(--nav-text); position:relative; padding:6px 2px}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:currentColor;transition:width .2s}
+.nav-links a:hover::after{width:100%}
+.theme-btn{border:1px solid var(--card-border); background:var(--card-bg); color:var(--nav-text);
+  border-radius:999px; padding:6px 10px; cursor:pointer; transition:transform .05s,opacity .2s}
+.theme-btn:hover{opacity:.9} .theme-btn:active{transform:translateY(1px)}
+
+.page-content{padding:28px 0 80px}
+
+/* Cards */
+.card{display:flex; gap:16px; align-items:center; justify-content:space-between;
+  background:var(--card-bg); border:1px solid var(--card-border); border-radius:14px;
+  padding:16px; box-shadow:var(--shadow); margin:16px 0}
+.card-link{display:flex; text-decoration:none; color:inherit}
+.card-content{flex:1 1 auto; min-width:0}
+.card-image{flex:0 0 160px; margin-left:16px}
+.card-image img{width:160px; height:100px; object-fit:cover; border-radius:10px}
+.card-title{margin:0; font-weight:700; font-size:1.125rem}
+.card-meta{margin:6px 0; color:var(--muted)}
+.card-dot{padding:0 6px}
+.card-desc{margin:0}
+@media (max-width:720px){
+  .card{flex-direction:column-reverse; align-items:flex-start}
+  .card-image{width:100%; margin:0 0 8px 0}
+  .card-image img{width:100%; height:auto}
+}
+.card.card-link { display:flex; cursor:pointer; text-decoration:none; color:inherit; }
+
+
+/* Pagination */
+.pagination{display:flex; gap:8px; flex-wrap:wrap; margin-top:20px}
+.page-btn{
+  border:1px solid var(--card-border);
+  background:var(--card-bg);
+  color:var(--text);
+  border-radius:10px;
+  padding:6px 12px;
+  min-width:36px;
+  cursor:pointer;
+  transition:background .2s, transform .05s, border-color .2s, color .2s;
+}
+.page-btn:hover{ background:rgba(127,127,127,.12) }
+.page-btn:active{ transform:translateY(1px) }
+.page-btn[aria-current="page"]{
+  background:var(--link);
+  color:#fff;
+  border-color:transparent;
+}
+
+.doc-header { margin: 8px 0 20px; }
+.doc-title { font-size: 1.75rem; margin: 0 0 4px; }
+.doc-meta { margin: 0; color: var(--muted); }
+
+.pdf-embed { margin: 16px 0; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.pdf-embed object { border: 1px solid var(--card-border); background: var(--card-bg); }
+
+
+/* ===== Timeline (dot + time, then block) ===== */
+.tl{
+  --tl-bar-left: 28px;   /* X of vertical bar inside the list */
+  --tl-bar-w: 6px;       /* bar width */
+  --tl-dot: 18px;        /* dot size */
+  margin: 40px 0 80px;
+  position: relative;
+}
+.tl-title{ text-align:center; font-size:2rem; margin:0 0 24px; }
+
+/* draw the vertical bar ONLY across the list (after title) */
+.tl-line{ display:none; } /* hide old element if still in HTML */
+.tl-list{
+  list-style:none; margin:0; padding:0;
+  position:relative;
+  /* room for bar + dot + date gutter */
+  padding-left: calc(var(--tl-bar-left) + var(--tl-dot) + 44px);
+}
+
+/* the continuous bar */
+.tl-list::before{
+  content:"";
+  position:absolute; top:0; bottom:0;
+  left: var(--tl-bar-left);
+  width: var(--tl-bar-w);
+  border-radius:999px;
+  background: var(--card-border);
+}
+
+.tl-item{ position:relative; margin:34px 0; }
+
+/* header row: dot + date */
+.tl-head{
+  position:relative;
+  margin-bottom:12px;
+  color:var(--muted);
+  font-style:italic;
+  /* >>> move the date to the right of the dot */
+  padding-left: calc(var(--tl-bar-left) + var(--tl-dot) + 12px);
+}
+
+/* center the dot perfectly on the bar */
+.tl-dot{
+  position:absolute; top:2px;
+  left: calc(var(--tl-bar-left) + (var(--tl-bar-w) - var(--tl-dot)) / 2);
+  width: var(--tl-dot); height: var(--tl-dot); border-radius:50%;
+  background: var(--bg); border:3px solid var(--text);
+  box-shadow: 0 0 0 4px rgba(0,0,0,.06);
+}
+
+.tl-date{ white-space:nowrap; letter-spacing:.02em; }
+
+/* the card block */
+.tl-card{
+  display:flex; gap:16px; align-items:flex-start;
+  background:var(--card-bg); border:1px solid var(--card-border);
+  border-radius:16px; padding:18px; box-shadow:var(--shadow);
+}
+.tl-logo{
+  width:72px; height:72px; border-radius:12px; object-fit:cover;
+  background:var(--bg); border:1px solid var(--card-border);
+}
+.tl-company{ margin:0 0 6px; font-size:1.25rem; font-weight:800; }
+
+/* role line (you asked for this earlier) */
+.tl-role{
+  margin:-2px 0 10px;
+  font-size:1rem; font-weight:600; color:var(--muted);
+}
+
+.tl-bullets{ margin:0 0 12px; padding-left:20px; }
+.tl-bullets li{ margin:6px 0; }
+
+/* chips */
+.chips{ display:flex; gap:10px; flex-wrap:wrap; }
+.chip{
+  display:inline-block; padding:6px 10px; border-radius:999px;
+  border:1px solid var(--card-border); background:var(--card-bg); color:var(--text);
+  font-size:.9rem;
+}
+
+/* responsive */
+@media (max-width: 800px){
+  .tl{ --tl-bar-left: 22px; --tl-bar-w: 4px; --tl-dot: 14px; }
+  .tl-logo{ width:60px; height:60px; }
+}
+@media (max-width: 560px){
+  .tl-list::before, .tl-head, .tl-dot{ display:none; }  /* simplify on phones */
+  .tl-list{ padding-left:0; }
+}

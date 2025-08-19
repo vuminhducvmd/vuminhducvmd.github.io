@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/style.css">
+</head>
+<body>
+  {% include header.html %}
+  <main class="container page-content">
+    {% comment %}
+      Show a per-page header on collection items (blog/projects/publications),
+      but not on plain pages like /pages/blog.html (the listing).
+    {% endcomment %}
+    {% if page.collection %}
+      {% include post_header.html %}
+    {% endif %}
+
+    {% if page.pdf %}
+      {% include pdf_embed.html src=page.pdf height=page.pdf_height %}
+    {% endif %}
+
+    {{ content }}
+  </main>
+
+  <script src="{{ site.baseurl }}/js/theme.js" defer></script>
+  <script src="{{ site.baseurl }}/js/paginate.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<header class="doc-header">
+  <h1 class="doc-title">{{ page.title }}</h1>
+  {% if page.written_on or page.tagline %}
+    <p class="doc-meta">
+      {% if page.written_on %}
+        <span class="card-date">{{ page.written_on | date: "%b %d, %Y" }}</span>
+      {% endif %}
+      {% if page.tagline %}
+        <span class="card-dot">•</span>
+        <span class="card-tagline">#{{ page.tagline }}</span>
+      {% endif %}
+    </p>
+  {% endif %}
+</header>

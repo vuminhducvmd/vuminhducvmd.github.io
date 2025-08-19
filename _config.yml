@@ -1,0 +1,20 @@
+title: "Welcome to VMD's blog!"
+description: "Personal site / blog"
+url: "https://vuminhducvmd.github.io"
+baseurl: ""   # if using a project site, set "/repo-name"
+
+# Put collections under /pages and name them as you like
+collections_dir: pages
+collections:
+  blog:
+    output: true
+    permalink: /pages/blog/:name/
+  projects:
+    output: true
+    permalink: /pages/projects/:name/
+  publications:
+    output: true
+    permalink: /pages/publications/:name/
+
+markdown: kramdown
+theme: null   # we use our own CSS

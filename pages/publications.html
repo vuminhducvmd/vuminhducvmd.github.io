@@ -7,31 +7,32 @@ permalink: /pages/publications.html
 <h1>Publications</h1>
 
 <div data-paginate data-per-page="10">
-  {%- assign items = site.publications
-        | where_exp: "d", "d.name != 'index.html' and d.name != 'index.md' and d.data.draft != true" -%}
-  {%- assign items_sorted = items | sort: "written_on" | reverse -%}
+  {%- assign items_sorted = site.publications | sort: "written_on" | reverse -%}
   {%- for item in items_sorted -%}
-    {%- assign base = item.basename_without_ext | default: item.name | split:'.' | first -%}
-    {%- assign auto = '/pages/' | append: item.collection | append: '/' | append: base | append: '/' -%}
-    {%- assign href = item.link | default: item.url | default: auto -%}
+    {%- unless item.name == 'index.html' or item.name == 'index.md' or item.draft == true -%}
+      {%- assign base = item.basename_without_ext | default: item.name | split:'.' | first -%}
+      {%- assign auto = '/pages/' | append: item.collection | append: '/' | append: base | append: '/' -%}
+      {%- assign href = item.link | default: item.url | default: auto -%}
+      {%- assign date_text = item.display_date | default: item.written_on -%}
 
-    <div class="paginated-item">
-      {%- if item.no_link == true -%}
-        <div class="card" aria-disabled="true">
-          {% include card_inner.html item=item %}
-        </div>
-      {%- else -%}
-        {%- if href contains '://' -%}
-          <a class="card card-link" href="{{ href }}" target="_blank" rel="noopener noreferrer">
-            {% include card_inner.html item=item %}
-          </a>
+      <div class="paginated-item">
+        {%- if item.no_link == true -%}
+          <div class="card" aria-disabled="true">
+            {% include card_inner.html item=item date_text=date_text %}
+          </div>
         {%- else -%}
-          <a class="card card-link" href="{{ href | relative_url }}">
-            {% include card_inner.html item=item %}
-          </a>
+          {%- if href contains '://' -%}
+            <a class="card card-link" href="{{ href }}" target="_blank" rel="noopener noreferrer">
+              {% include card_inner.html item=item date_text=date_text %}
+            </a>
+          {%- else -%}
+            <a class="card card-link" href="{{ href | relative_url }}">
+              {% include card_inner.html item=item date_text=date_text %}
+            </a>
+          {%- endif -%}
         {%- endif -%}
-      {%- endif -%}
-    </div>
+      </div>
+    {%- endunless -%}
   {%- endfor -%}
 </div>
 

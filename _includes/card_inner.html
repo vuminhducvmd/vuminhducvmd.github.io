@@ -1,15 +1,15 @@
-{%- comment -%}
-Inner markup only. Listing page decides whether it's <a> or <div>.
-Supported front-matter on each item:
-  title (req), written_on (YYYY-MM-DD, req),
-  tagline, description (opt),
-  image (opt: path or URL; omit or leave blank to hide)
-{%- endcomment -%}
-
 <div class="card-content">
   <h2 class="card-title">{{ include.item.title }}</h2>
   <p class="card-meta">
-    <span class="card-date">{{ include.item.written_on | date: "%b %d, %Y" }}</span>
+    <span class="card-date">
+      {%- if include.date_text -%}
+        {{ include.date_text }}
+      {%- elsif include.item.display_date -%}
+        {{ include.item.display_date }}
+      {%- elsif include.item.written_on -%}
+        {{ include.item.written_on | date: "%b %d, %Y" }}
+      {%- endif -%}
+    </span>
     {%- if include.item.tagline and include.item.tagline != blank -%}
       <span class="card-dot">•</span>
       <span class="card-tagline">#{{ include.item.tagline }}</span>
